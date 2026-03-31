@@ -1,8 +1,22 @@
 "use client";
 import { motion } from "framer-motion";
 import CountUp from "react-countup";
+import { useEffect, useState, useRef } from "react";
 
 export default function Home() {
+
+  // ✅ REFS
+  const videoRef1 = useRef<HTMLVideoElement>(null);
+  const videoRef2 = useRef<HTMLVideoElement>(null);
+  const videoRef3 = useRef<HTMLVideoElement>(null);
+
+  // ✅ FORÇAR PLAY
+  useEffect(() => {
+    videoRef1.current?.play().catch(() => {});
+    videoRef2.current?.play().catch(() => {});
+    videoRef3.current?.play().catch(() => {});
+  }, []);
+
   return (
     <main className="bg-white text-black pt-20">
 
@@ -102,11 +116,15 @@ export default function Home() {
       whileInView={{ opacity: 1 }}
     >
       <video
+        ref={videoRef1}
         autoPlay
         muted
         loop
         playsInline
-        className="absolute top-0 left-0 w-full h-full object-cover">
+        preload="auto"
+        poster="/thumb1.jpg"
+        className="absolute top-0 left-0 w-full h-full object-cover"
+      >
         <source src="/video1.mp4" type="video/mp4" />
       </video>
       <div className="absolute inset-0 bg-black/50 md:bg-black/40"></div>
@@ -121,7 +139,7 @@ export default function Home() {
   {/* SERVIÇO 2 */}
   <div className="flex flex-col items-center text-center gap-8">
 
-    <h2 className="text-2xl md:text-4xl font-bold text-center mt-16 md:mt-20">
+    <h2 className="text-2xl md:text-xl md:text-3xl font-bold text-center mt-16 md:mt-20">
       Transporte de combustíveis claros
     </h2>
 
@@ -143,18 +161,22 @@ export default function Home() {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
     >
-       <video
+      <video
+        ref={videoRef2}
         autoPlay
         muted
         loop
         playsInline
-        className="absolute top-0 left-0 w-full h-full object-cover">
+        preload="auto"
+        poster="/thumb1.jpg"
+        className="absolute top-0 left-0 w-full h-full object-cover"
+      >
         <source src="/video2.mp4" type="video/mp4" />
       </video>
 
       <div className="absolute inset-0 bg-black/50 md:bg-black/40"></div>
 
-      <h3 className="relative text-white text-3xl font-bold flex items-center justify-center h-full">
+      <h3 className="relative text-white text-xl md:text-3xl font-bold flex items-center justify-center h-full">
         Transportes de combustíveis
       </h3>
     </motion.div>
@@ -187,17 +209,21 @@ export default function Home() {
       whileInView={{ opacity: 1 }}
     >
        <video
+        ref={videoRef3}
         autoPlay
         muted
         loop
         playsInline
-        className="absolute top-0 left-0 w-full h-full object-cover">
+        preload="auto"
+        poster="/thumb1.jpg"
+        className="absolute top-0 left-0 w-full h-full object-cover"
+      >
         <source src="/video3.mp4" type="video/mp4" />
       </video>
 
       <div className="absolute inset-0 bg-black/50 md:bg-black/40"></div>
 
-      <h3 className="relative text-white text-3xl font-bold flex items-center justify-center h-full">
+      <h3 className="relative text-white text-xl md:text-3xl font-bold flex items-center justify-center h-full">
         Soluções completas em transporte
       </h3>
     </motion.div>
