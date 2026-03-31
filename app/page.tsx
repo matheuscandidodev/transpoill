@@ -318,6 +318,7 @@ export default function Home() {
       <img src="/dist2.png" className="mx-auto h-12 object-contain hover:opacity-100 transition" />
       <img src="/dist3.png" className="mx-auto h-12 object-contain hover:opacity-100 transition" />
       <img src="/dist4.png" className="mx-auto h-12 object-contain hover:opacity-100 transition" />
+      <img src="/dist5.png" className="mx-auto h-12 object-contain hover:opacity-100 transition" />
 
 
     </div>
