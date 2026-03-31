@@ -7,14 +7,21 @@ export default function Home() {
     <main className="bg-white text-black pt-20">
 
       {/* NAVBAR */}
-      <header className="w-full flex justify-between items-center px-8 py-4 bg-white/80 backdrop-blur-md fixed top-0 left-0 z-50 shadow-sm">
-        <img src="/logo.png" className="w-32" />
+      <header className="w-full flex justify-between items-center px-4 md:px-8 py-4 bg-white/80 backdrop-blur-md fixed top-0 left-0 z-50 shadow-sm">
+        <img src="/logo.png" className="w-24 md:w-32" />
+
+        {/* DESKTOP */}
         <nav className="hidden md:flex gap-8 font-medium">
           <a href="#">Home</a>
           <a href="/sobre">Sobre</a>
           <a href="#">Serviços</a>
           <a href="#">Contato</a>
         </nav>
+
+        {/* MOBILE */}
+        <div className="md:hidden">
+          <button>☰</button>
+        </div>
       </header>
 
       {/* SOBRE */}
@@ -35,7 +42,7 @@ export default function Home() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-7xl font-bold mb-5">
+          <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold mb-5 leading-tight">  
             MAIS QUE CARGA, LEVAMOS A FORÇA QUE  {" "}
             <span className="border-b-8 border-red-600 pb-0">
               MOVE O BRASIL.
@@ -61,23 +68,23 @@ export default function Home() {
       <a
         href="https://wa.me/5585999999999"
         target="_blank"
-        className="fixed bottom-6 right-6 bg-green-500 p-4 rounded-full shadow-lg hover:scale-110 transition z-50"
+        className="fixed bottom-4 md:bottom-6 right-4 md:right-6 bg-green-500 p-3 md:p-4 rounded-full shadow-lg hover:scale-110 transition z-50"
       >
         <img src="/whatsapp.png" className="w-11 h-11" />
       </a>
 
       {/* SERVIÇOS */}
-<section className="py-20 flex flex-col gap-32">
+<section className="py-16 md:py-20 flex flex-col gap-16 md:gap-24">
 
   {/* SERVIÇO 1 */}
   <div className="flex flex-col items-center text-center gap-8">
 
-    <h2 className="text-3xl font-bold">
+    <h2 className="text-2xl md:text-4xl font-bold text-center mt-16 md:mt-20">
       Transporte de emulsões asfálticas
     </h2>
 
     <motion.div
-      className="w-full md:w-125 bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition"
+      className="w-full max-w-md bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition"
       initial={{ opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
     >
@@ -90,7 +97,7 @@ export default function Home() {
 
     {/* VIDEO 1 */}
     <motion.div
-      className="relative w-full h-screen"
+      className="relative w-full h-[300px] md:h-[500px] lg:h-screen"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
     >
@@ -114,12 +121,12 @@ export default function Home() {
   {/* SERVIÇO 2 */}
   <div className="flex flex-col items-center text-center gap-8">
 
-    <h2 className="text-3xl font-bold">
+    <h2 className="text-2xl md:text-4xl font-bold text-center mt-16 md:mt-20">
       Transporte de combustíveis claros
     </h2>
 
     <motion.div
-      className="w-full md:w-125 bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition"
+      className="w-full max-w-md bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition"
       initial={{ opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
     >
@@ -132,7 +139,7 @@ export default function Home() {
 
     {/* VIDEO 2 */}
     <motion.div
-      className="relative w-full h-screen"
+      className="relative w-full h-[300px] md:h-[500px] lg:h-screen"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
     >
@@ -157,12 +164,12 @@ export default function Home() {
   {/* SERVIÇO 3 */}
   <div className="flex flex-col items-center text-center gap-8">
 
-    <h2 className="text-3xl font-bold">
+    <h2 className="text-2xl md:text-4xl font-bold text-center mt-16 md:mt-20">
       Soluções de transporte para todos os ramos
     </h2>
 
     <motion.div
-      className="w-full md:w-125 bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition"
+      className="w-full max-w-md bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition"
       initial={{ opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
     >
@@ -175,7 +182,7 @@ export default function Home() {
 
     {/* VIDEO 3 */}
     <motion.div
-      className="relative w-full h-screen"
+      className="relative w-full h-[300px] md:h-[500px] lg:h-screen"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
     >
@@ -235,7 +242,7 @@ export default function Home() {
 
 {/* CTA */}
 <section className="py-10 bg-gray-100">
-  <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 px-6">
+  <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 px-4 md:px-6">
 
     {/* CARD ORÇAMENTO */}
     <div className="bg-white p-10 rounded-2xl shadow-lg hover:shadow-xl transition">
@@ -322,7 +329,7 @@ export default function Home() {
 
 {/* FOOTER */}
 <footer className="bg-gray-500 text-gray-300 py-12">
-  <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 px-6">
+ <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 px-4 md:px-6">
 
     {/* LOGO */}
     <div>
