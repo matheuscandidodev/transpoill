@@ -94,10 +94,14 @@ export default function Home() {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
     >
-      <video autoPlay loop muted className="absolute w-full h-full object-cover">
-        <source src="/video1.mp4" />
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute top-0 left-0 w-full h-full object-cover">
+        <source src="/video1.mp4" type="video/mp4" />
       </video>
-
       <div className="absolute inset-0 bg-black/50 md:bg-black/40"></div>
 
       <h3 className="relative text-white text-3xl font-bold flex items-center justify-center h-full">
@@ -132,8 +136,13 @@ export default function Home() {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
     >
-      <video autoPlay loop muted className="absolute w-full h-full object-cover">
-        <source src="/video2.mp4" />
+       <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute top-0 left-0 w-full h-full object-cover">
+        <source src="/video2.mp4" type="video/mp4" />
       </video>
 
       <div className="absolute inset-0 bg-black/50 md:bg-black/40"></div>
@@ -170,8 +179,13 @@ export default function Home() {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
     >
-      <video autoPlay loop muted className="absolute w-full h-full object-cover">
-        <source src="/video3.mp4" />
+       <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute top-0 left-0 w-full h-full object-cover">
+        <source src="/video3.mp4" type="video/mp4" />
       </video>
 
       <div className="absolute inset-0 bg-black/50 md:bg-black/40"></div>
