@@ -312,13 +312,13 @@ export default function Home() {
     </div>
 
     {/* LOGOS */}
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center opacity-80">
+    <div className="grid grid-cols-2 md:grid-cols-5 gap-8 items-center opacity-80">
 
-      <img src="/dist1.png" className="mx-auto h-12 object-contain hover:opacity-100 transition" />
-      <img src="/dist2.png" className="mx-auto h-12 object-contain hover:opacity-100 transition" />
-      <img src="/dist3.png" className="mx-auto h-12 object-contain hover:opacity-100 transition" />
-      <img src="/dist4.png" className="mx-auto h-12 object-contain hover:opacity-100 transition" />
-      <img src="/dist5.png" className="mx-auto h-12 object-contain hover:opacity-100 transition" />
+      <img src="/dist1.png" className="mx-auto h-15 object-contain hover:opacity-100 transition" />
+      <img src="/dist2.png" className="mx-auto h-15 object-contain hover:opacity-100 transition" />
+      <img src="/dist3.png" className="mx-auto h-15 object-contain hover:opacity-100 transition" />
+      <img src="/dist4.png" className="mx-auto h-15 object-contain hover:opacity-100 transition" />
+      <img src="/dist5.png" className="mx-auto h-15 object-contain hover:opacity-100 transition" />
 
 
     </div>
