@@ -1,13 +1,13 @@
 "use client";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-
+ 
 // ─── CountUp isolado para não forçar "use client" no page inteiro
 function StatNumber({ end, suffix = "" }: { end: number; suffix?: string }) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
   const started = useRef(false);
-
+ 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -28,40 +28,48 @@ function StatNumber({ end, suffix = "" }: { end: number; suffix?: string }) {
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, [end]);
-
+ 
   return <div ref={ref}>{suffix}{count}</div>;
 }
-
+ 
 // ─── Vídeo lazy: só carrega quando entra na viewport
 function LazyVideo({ src, poster, label }: { src: string; poster: string; label: string }) {
-  const ref = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [visible, setVisible] = useState(false);
-
+ 
+  // 1) Observa o container — quando entra na tela, marca como visível
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setVisible(true);
-          videoRef.current?.play().catch(() => {});
           observer.disconnect();
         }
       },
       { threshold: 0.1 }
     );
-    if (ref.current) observer.observe(ref.current);
+    if (containerRef.current) observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, []);
-
+ 
+  // 2) Só chama play() DEPOIS que o <video> foi montado no DOM
+  useEffect(() => {
+    if (visible && videoRef.current) {
+      videoRef.current.load(); // garante que o source foi lido
+      videoRef.current.play().catch(() => {});
+    }
+  }, [visible]);
+ 
   return (
-    <div ref={ref} className="relative w-full h-[300px] md:h-[560px] overflow-hidden">
+    <div ref={containerRef} className="relative w-full h-[300px] md:h-[560px] overflow-hidden bg-zinc-900">
       {visible && (
         <video
           ref={videoRef}
           muted
           loop
           playsInline
-          preload="none"
+          preload="metadata"
           poster={poster}
           className="absolute inset-0 w-full h-full object-cover"
         >
@@ -75,7 +83,7 @@ function LazyVideo({ src, poster, label }: { src: string; poster: string; label:
     </div>
   );
 }
-
+ 
 // ─── Serviço com layout assimétrico (imagem à esquerda ou direita)
 function Servico({
   titulo, descricao, imgSrc, videoSrc, poster, videoLabel, reverse,
@@ -103,7 +111,7 @@ function Servico({
             className="w-full h-full object-cover hover:scale-105 transition duration-700"
           />
         </div>
-
+ 
         {/* Texto */}
         <div className={`md:w-1/2 flex flex-col justify-center px-8 md:px-16 py-12 bg-white ${reverse ? "md:items-end md:text-right" : ""}`}>
           <span className="text-xs font-bold tracking-[0.25em] text-red-600 uppercase mb-3">
@@ -124,43 +132,43 @@ function Servico({
           </a>
         </div>
       </motion.div>
-
+ 
       {/* Vídeo */}
       <LazyVideo src={videoSrc} poster={poster} label={videoLabel} />
     </div>
   );
 }
-
+ 
 // ─────────────────────────────────────────
 export default function Home() {
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-
+ 
   const [menuOpen, setMenuOpen] = useState(false);
-
+ 
   return (
     <main className="bg-white text-zinc-900" style={{ fontFamily: "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif" }}>
-
+ 
       {/* ── GOOGLE FONT ── */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
         body { font-family: 'Barlow', Arial, sans-serif; }
         .font-display { font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif; }
       `}</style>
-
+ 
       {/* ── NAVBAR ── */}
       <header className="w-full flex justify-between items-center px-6 md:px-12 py-4 bg-white fixed top-0 left-0 z-50 border-b border-zinc-100">
         <img src="/logo.png" alt="Transpoil" width={120} height={40} className="w-24 md:w-32 h-auto" />
-
+ 
         {/* Desktop */}
         <nav className="hidden md:flex gap-10 text-sm font-semibold tracking-widest uppercase text-zinc-600">
           {["Home", "Sobre", "Serviços", "Contato"].map((item) => (
             <a key={item} href="#" className="hover:text-red-600 transition">{item}</a>
           ))}
         </nav>
-
+ 
         <a
           href="https://wa.me/5585999999999"
           target="_blank"
@@ -168,13 +176,13 @@ export default function Home() {
         >
           Falar com comercial
         </a>
-
+ 
         {/* Mobile */}
         <button className="md:hidden text-2xl" onClick={() => setMenuOpen(!menuOpen)}>
           {menuOpen ? "✕" : "☰"}
         </button>
       </header>
-
+ 
       {/* Mobile menu */}
       {menuOpen && (
         <div className="fixed inset-0 bg-white z-40 flex flex-col items-center justify-center gap-8 text-2xl font-black uppercase tracking-wider">
@@ -183,7 +191,7 @@ export default function Home() {
           ))}
         </div>
       )}
-
+ 
       {/* ── HERO ── */}
       <section ref={heroRef} className="relative w-full h-screen overflow-hidden flex items-end">
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
@@ -193,7 +201,7 @@ export default function Home() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/20" />
         </motion.div>
-
+ 
         <motion.div
           className="relative z-10 px-6 md:px-16 pb-16 md:pb-24 max-w-5xl"
           style={{ opacity: heroOpacity }}
@@ -226,7 +234,7 @@ export default function Home() {
             </a>
           </div>
         </motion.div>
-
+ 
         {/* Scroll indicator */}
         <motion.div
           className="absolute bottom-8 right-8 flex flex-col items-center gap-2 text-white/40"
@@ -237,7 +245,7 @@ export default function Home() {
           <span className="text-xs tracking-widest uppercase rotate-90 origin-center translate-x-6">scroll</span>
         </motion.div>
       </section>
-
+ 
       {/* ── SERVIÇOS ── */}
       <section id="servicos" className="pt-4">
         <div className="px-6 md:px-16 py-16">
@@ -252,7 +260,7 @@ export default function Home() {
             </h2>
           </motion.div>
         </div>
-
+ 
         <Servico
           titulo="Transporte de emulsões asfálticas"
           descricao="Operações especializadas com equipamentos adequados para manuseio seguro de materiais asfálticos, garantindo qualidade do produto e prazo de entrega."
@@ -279,7 +287,7 @@ export default function Home() {
           videoLabel="Soluções completas em transporte"
         />
       </section>
-
+ 
       {/* ── POR QUE ESCOLHER ── */}
       <section className="py-24 bg-zinc-950 text-white">
         <div className="max-w-6xl mx-auto px-6 md:px-16">
@@ -294,7 +302,7 @@ export default function Home() {
               Por que escolher<br />a Transpoil?
             </h2>
           </motion.div>
-
+ 
           <div className="grid md:grid-cols-3 gap-0 border border-zinc-800">
             {[
               { n: "01", title: "Segurança total", desc: "Seguimos rigorosamente todas as normas ANP e ABNT para transporte de produtos perigosos." },
@@ -316,7 +324,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
+ 
       {/* ── NÚMEROS ── */}
       <section className="py-24 bg-red-600 text-white">
         <div className="max-w-6xl mx-auto px-6 md:px-16">
@@ -340,19 +348,22 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
-
+ 
           {/* Logos parceiros */}
           <div className="mt-20 border-t border-red-500 pt-12">
-            <p className="text-xs font-bold tracking-[0.3em] text-white/50 uppercase mb-8">Parceiros & distribuidoras</p>
-            <div className="flex flex-wrap gap-10 items-center justify-start opacity-70">
+            <p className="text-xs font-bold tracking-[0.3em] text-white/50 uppercase mb-8">Alguns de nossos parceiros & distribuidoras</p>
+            <div className="flex flex-wrap gap-10 items-center justify-start">
+              {/* dist1, dist2, dist3 — fundo branco: pill branco para aparecer no fundo vermelho */}
               {["/dist1.png", "/dist2.png", "/dist3.png", "/dist4.png", "/dist5.png"].map((src, i) => (
-                <img key={i} src={src} alt={`Parceiro ${i + 1}`} width={120} height={48} className="h-10 object-contain brightness-0 invert hover:opacity-100 transition" />
+                <div key={i} className="bg-white/90 rounded px-8 py-2 hover:bg-white transition">
+                  <img src={src} alt={`Parceiro ${i + 1}`} width={100} height={40} className="h-8 object-contain" />
+                </div>
               ))}
             </div>
           </div>
         </div>
       </section>
-
+ 
       {/* ── CTA ── */}
       <section className="py-24 bg-white">
         <div className="max-w-6xl mx-auto px-6 md:px-16">
@@ -389,7 +400,7 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
-
+ 
       {/* ── FOOTER ── */}
       <footer className="bg-zinc-950 text-zinc-500 py-16">
         <div className="max-w-6xl mx-auto px-6 md:px-16 grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -419,7 +430,7 @@ export default function Home() {
           © {new Date().getFullYear()} Transpoil. Todos os direitos reservados.
         </div>
       </footer>
-
+ 
       {/* ── WHATSAPP FLUTUANTE ── */}
       <a
         href="https://wa.me/5585999999999"
@@ -429,7 +440,7 @@ export default function Home() {
       >
         <img src="/whatsapp.png" alt="WhatsApp" width={44} height={44} className="w-11 h-11" />
       </a>
-
+ 
     </main>
   );
 }
